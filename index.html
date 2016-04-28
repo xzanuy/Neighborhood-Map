@@ -12,10 +12,12 @@
 <body>
 	 <aside class="col-md-3">
       <input></input>
-      <ul id="marker-viewer" data-bind="foreach:myObservableArray">
+      <ul id="marker-viewer" data-bind="foreach:$root.myObservableArray">
           <li data-bind="text:markerName"></li>
       </ul>
    </aside>
+
+
 	 <div id="map" class="col-md-9"></div>
 	
 	 

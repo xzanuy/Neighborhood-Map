@@ -24,7 +24,7 @@ var viewModel = function(){
         lon : '2.120835',}
         ]
 
-console.log(myObservableArray);
+console.log(myObservableArray([]));
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 13,
@@ -50,9 +50,8 @@ console.log(myObservableArray);
       })(marker, i));
     }
 
- for (var i = 0; i < initialMarkers.length; i++) {
-   
-    myObservableArray.push(initialMarkers[i]);    
+    for (var i = 0; i < initialMarkers.length; i++) {
+        myObservableArray.push(initialMarkers[i]);    
     };
 
 };
