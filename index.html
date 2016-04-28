@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="es">
+
+<head>
+	 <title>Neighborhod Map</title>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="css/styles.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
+</head>
+
+<body>
+	 <aside class="col-md-3">
+      <input></input>
+      <ul id="marker-viewer" data-bind="foreach:myObservableArray">
+          <li data-bind="text:markerName"></li>
+      </ul>
+   </aside>
+	 <div id="map" class="col-md-9"></div>
+	
+	 
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3rm0KhwNH4Qw70m2d4Li77hMp10gDdfI&callback=initMap"async defer></script>
+	<script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jQuery.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
+
