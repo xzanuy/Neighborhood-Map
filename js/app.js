@@ -1,3 +1,9 @@
+'use strict';
+
+var map;
+var marker;
+
+
 function initMap(){
     var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 41.383947, lng: 2.173453},
@@ -7,22 +13,12 @@ function initMap(){
 
     var infowindow = new google.maps.InfoWindow();
 
-//create marker
-for (i = 0; i < initialMarkers.length; i++) {  
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(initialMarkers[i].lat, this.initialMarkers[i].lon),
-        map: map
-      });
 
-        //Add event listener to each marker
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        return function() {
-          infowindow.setContent(initialMarkers[i].markerName);
-          infowindow.open(map, marker);
-        }
-      })(marker, i));};
+        // Initialize View Model Binding
+        ko.applyBindings(new viewModel());
+}
 
-};
+
 
 
 
@@ -50,11 +46,13 @@ var initialMarkers = [{
         ];
 
 //marker constructor
-var Marker = function(data){
+var iMarker = function(data){
     this.markerName = ko.observable(data.markerName);
     this.markerLat = ko.observable(data.markerLat);
     this.markerLon = ko.observable(data.markerLon);
     this.markerDescription = ko.observableArray(data.markerDescription);
+    this.isVisible = ko.observable(false);
+
     
 
     /*this.title = ko.computed(function(){
@@ -74,14 +72,78 @@ var viewModel = function(){
 
     var self = this;
 
-    this.markerList = ko.observableArray([]);
+    self.markerList = ko.observableArray([]);
+    self.filter = ko.observable("");
 
     initialMarkers.forEach(function(markerItem){
-        self.markerList.push(new Marker(markerItem) );
+        self.markerList.push(new iMarker(markerItem) );
     });
-        
-    self.filter = ko.observable("");// to store the filter value
+    
+    //console.log(self.markerList());
+    self.markerList().forEach(function(markerItem){
+        console.log(markerItem);
 
+    marker = new google.maps.Marker({
+        position: new google.maps.LatLng(markerItem.markerLat(), markerItem.markerLon()),
+        map : map,
+        setMap : map,
+        animation: google.maps.Animation.DROP
+
+      });
+        
+    });
+
+
+    self.filterMarkers = ko.computed(function () {
+        var search  = self.filter().toLowerCase();
+        return ko.utils.arrayFilter(self.markerList(), function (pin) {
+            var doesMatch = pin.markerName().toLowerCase().indexOf(search) >= 0;
+            pin.isVisible(doesMatch);
+            return doesMatch;
+        });
+    });
+
+
+   //create marker
+   /* for (var i = 0; i < initialMarkers.length; i++) {  
+      
+
+        //Add event listener info window and bounce animation to each marker
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(initialMarkers[i].markerName);
+          infowindow.open(map, marker);
+          if (marker.getAnimation() !== null) {
+             marker.setAnimation(null);
+             } else {
+             marker.setAnimation(google.maps.Animation.BOUNCE);
+            };
+        }
+      })(marker, i));
+    };
+
+
+    
+
+
+    // to store the filter value 
+    
+
+    // computed to know what placers are matched
+    self.filterPlaces = ko.computed(function(){
+        var returnArray = [];
+        hide all markers
+    for (var i=0; i<markerList.length; i++) {
+    markerList[i].setVisible(false);
+    }
+        //push matches 
+
+        //display markers of the match list
+    })
+
+    for (var i = ko.length - 1; i >= 0; i--) {
+        ko[i]
+    };
 
     //this.currentCat = ko.observable(this.catList()[0]);
 
@@ -99,8 +161,10 @@ console.log(viewModel);
 
 
 
+
+
   
-  ko.applyBindings(new viewModel());
+  
 
 
 
